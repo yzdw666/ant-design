@@ -1,3 +1,4 @@
+import { SmileOutlined } from '@ant-design/icons';
 import React, { useEffect } from 'react';
 import App from '..';
 import mountTest from '../../../tests/shared/mountTest';
@@ -139,5 +140,31 @@ describe('App', () => {
       </App>,
     );
     expect(container.querySelector<HTMLDivElement>('.ant-app')).toHaveStyle('color: blue;');
+  });
+
+  // https://github.com/ant-design/ant-design/issues/41197#issuecomment-1465803061
+  describe('restIcon style', () => {
+    beforeEach(() => {
+      Array.from(document.querySelectorAll('style')).forEach((style) => {
+        style.parentNode?.removeChild(style);
+      });
+    });
+
+    it('should work by default', () => {
+      const { container } = render(
+        <App>
+          <SmileOutlined />
+        </App>,
+      );
+
+      expect(container.querySelector('.anticon')).toBeTruthy();
+      const dynamicStyles = Array.from(document.querySelectorAll('style[data-css-hash]'));
+      expect(
+        dynamicStyles.some((style) => {
+          const { innerHTML } = style;
+          return innerHTML.startsWith('.anticon');
+        }),
+      ).toBeTruthy();
+    });
   });
 });

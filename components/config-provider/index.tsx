@@ -25,7 +25,7 @@ import useConfig from './hooks/useConfig';
 import useTheme from './hooks/useTheme';
 import type { SizeType } from './SizeContext';
 import SizeContext, { SizeContextProvider } from './SizeContext';
-import useStyle from './style';
+import { useResetIconStyle } from './style';
 
 /**
  * Since too many feedback using static method like `Modal.confirm` not getting theme,
@@ -206,7 +206,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
   const shouldWrapSSR = iconPrefixCls !== parentContext.iconPrefixCls;
   const csp = customCsp || parentContext.csp;
 
-  const wrapSSR = useStyle(iconPrefixCls, csp);
+  const wrapSSR = useResetIconStyle(iconPrefixCls);
 
   const mergedTheme = useTheme(theme, parentContext.theme);
 
