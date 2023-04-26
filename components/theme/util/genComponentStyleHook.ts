@@ -3,6 +3,7 @@ import type { CSSInterpolation } from '@ant-design/cssinjs';
 import { useStyleRegister } from '@ant-design/cssinjs';
 import { useContext } from 'react';
 import { ConfigContext } from '../../config-provider/context';
+import { genCommonStyle, genLinkStyle } from '../../style';
 import { useResetIconStyle } from '../../config-provider/style';
 import type { ComponentTokenMap, GlobalToken } from '../interface';
 import type { UseComponentStyleResult } from '../internal';
