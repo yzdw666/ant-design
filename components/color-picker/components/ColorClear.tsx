@@ -6,7 +6,7 @@ import { generateColor } from '../util';
 
 interface ColorClearProps extends Pick<ColorPickerBaseProps, 'prefixCls'> {
   value?: Color;
-  onChange?: (value: Color) => void;
+  onChange?: (value: Color, oriColor: Color) => void;
 }
 
 const ColorClear: FC<ColorClearProps> = ({ prefixCls, value, onChange }) => {
@@ -15,7 +15,7 @@ const ColorClear: FC<ColorClearProps> = ({ prefixCls, value, onChange }) => {
       const hsba = value.toHsb();
       hsba.a = 0;
       const genColor = generateColor(hsba);
-      onChange?.(genColor);
+      onChange?.(genColor, value);
     }
   };
   return <div className={`${prefixCls}-clear`} onClick={handleClick} />;

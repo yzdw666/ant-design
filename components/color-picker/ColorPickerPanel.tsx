@@ -10,7 +10,7 @@ import type { ColorPickerBaseProps } from './interface';
 
 interface ColorPickerPanelProps extends ColorPickerBaseProps {
   onChange?: (value?: Color) => void;
-  onClear?: (clear?: boolean) => void;
+  onClear?: (clear?: boolean, oriColor?: Color) => void;
 }
 
 const ColorPickerPanel: FC<ColorPickerPanelProps> = (props) => {
@@ -23,9 +23,9 @@ const ColorPickerPanel: FC<ColorPickerPanelProps> = (props) => {
         <ColorClear
           prefixCls={prefixCls}
           value={color}
-          onChange={(clearColor) => {
+          onChange={(clearColor, oriColor) => {
             onChange?.(clearColor);
-            onClear?.(true);
+            onClear?.(true, oriColor);
           }}
           {...injectProps}
         />

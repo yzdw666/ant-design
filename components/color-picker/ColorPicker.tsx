@@ -79,6 +79,8 @@ const ColorPicker: CompoundedComponent = (props) => {
 
   const { getPrefixCls, direction } = useContext<ConfigConsumerProps>(ConfigContext);
   const { token } = theme.useToken();
+  // save the temporary alpha value before clear color
+  const [tmpAlpha, setTmpAlpha] = useState<number | undefined>(undefined);
 
   const [colorValue, setColorValue] = useColorState(token.colorPrimary, {
     value,
@@ -101,16 +103,23 @@ const ColorPicker: CompoundedComponent = (props) => {
 
   const handleChange = (data: Color) => {
     const color: Color = generateColor(data);
-    if (clearColor && color.toHsb().a > 0) {
+    const hsb = color.toHsb();
+    if (clearColor) {
       setClearColor(false);
+      setTmpAlpha(undefined);
+      if (tmpAlpha !== undefined) {
+        hsb.a = tmpAlpha;
+      }
     }
+    const displayColor = generateColor(hsb);
     if (!value) {
-      setColorValue(color);
+      setColorValue(displayColor);
     }
-    onChange?.(color, color.toHexString());
+    onChange?.(displayColor, displayColor.toHexString());
   };
 
-  const handleClear = (clear: boolean) => {
+  const handleClear = (clear: boolean, oriColor: Color) => {
+    setTmpAlpha(oriColor.toHsb().a);
     setClearColor(clear);
   };
 

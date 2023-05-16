@@ -23,7 +23,7 @@ describe('ColorPicker', () => {
   });
 
   it('Should component defaultValue work', () => {
-    const { container } = render(<ColorPicker defaultValue="#000000" />);
+    const { container } = render(<ColorPicker defaultValue='#000000' />);
     expect(
       container.querySelector('.ant-color-picker-color-block-inner')?.getAttribute('style'),
     ).toEqual('background: rgb(0, 0, 0);');
@@ -37,8 +37,8 @@ describe('ColorPicker', () => {
         [color],
       );
       return (
-        <ColorPicker value={color} onChange={setColor} format="hsb">
-          <span className="custom-trigger">{colorString}</span>
+        <ColorPicker value={color} onChange={setColor} format='hsb'>
+          <span className='custom-trigger'>{colorString}</span>
         </ColorPicker>
       );
     };
@@ -80,7 +80,7 @@ describe('ColorPicker', () => {
   });
 
   it('Should allowClear work', async () => {
-    const { container } = render(<ColorPicker allowClear />);
+    const { container } = render(<ColorPicker allowClear format='hex' />);
     fireEvent.click(container.querySelector('.ant-color-picker-trigger')!);
     await waitFakeTimer();
     expect(container.querySelector('.ant-color-picker-clear')).toBeTruthy();
@@ -91,18 +91,58 @@ describe('ColorPicker', () => {
     expect(
       container.querySelector('.ant-color-picker-trigger .ant-color-picker-clear'),
     ).toBeTruthy();
+
     fireEvent.change(container.querySelector('.ant-color-picker-alpha-input input')!, {
       target: { value: 1 },
     });
+
     expect(
       container.querySelector('.ant-color-picker-trigger .ant-color-picker-clear'),
     ).toBeFalsy();
+
+    fireEvent.change(container.querySelector('.ant-color-picker-hex-input input')!, {
+      target: { value: 631515 },
+    });
+
+    fireEvent.change(container.querySelector('.ant-color-picker-alpha-input input')!, {
+      target: { value: 80 },
+    });
+
+    expect(
+      container.querySelector('.ant-color-picker-alpha-input input')?.getAttribute('value'),
+    ).toEqual('80%');
+
+    expect(
+      container.querySelector('.ant-color-picker-color-block-inner')?.getAttribute('style'),
+    ).toEqual('background: rgba(99, 21, 21, 0.8);');
+
+    fireEvent.click(container.querySelector('.ant-color-picker-clear')!);
+
+    expect(
+      container.querySelector('.ant-color-picker-alpha-input input')?.getAttribute('value'),
+    ).toEqual('0%');
+
+    expect(
+      container.querySelector('.ant-color-picker-color-block-inner')?.getAttribute('style'),
+    ).toEqual('background: rgba(99, 21, 21, 0);');
+
+    fireEvent.change(container.querySelector('.ant-color-picker-hex-input input')!, {
+      target: { value: '000000' },
+    });
+
+    expect(
+      container.querySelector('.ant-color-picker-alpha-input input')?.getAttribute('value'),
+    ).toEqual('80%');
+
+    expect(
+      container.querySelector('.ant-color-picker-color-block-inner')?.getAttribute('style'),
+    ).toEqual('background: rgba(0, 0, 0, 0.8);');
   });
 
   it('Should render trigger work', async () => {
     const { container } = render(
       <ColorPicker>
-        <div className="trigger" />
+        <div className='trigger' />
       </ColorPicker>,
     );
     expect(container.querySelector('.trigger')).toBeTruthy();
@@ -204,7 +244,7 @@ describe('ColorPicker', () => {
   });
 
   it('Should hex input work', async () => {
-    const { container } = render(<ColorPicker open format="hex" />);
+    const { container } = render(<ColorPicker open format='hex' />);
     fireEvent.change(container.querySelector('.ant-color-picker-hex-input input')!, {
       target: { value: 631515 },
     });
@@ -214,7 +254,7 @@ describe('ColorPicker', () => {
   });
 
   it('Should rgb input work', async () => {
-    const { container } = render(<ColorPicker open format="rgb" />);
+    const { container } = render(<ColorPicker open format='rgb' />);
     const rgbInputEls = container.querySelectorAll('.ant-color-picker-rgb-input input');
     fireEvent.change(rgbInputEls[0], {
       target: { value: 99 },
@@ -231,7 +271,7 @@ describe('ColorPicker', () => {
   });
 
   it('Should hsb input work', async () => {
-    const { container } = render(<ColorPicker open format="hsb" />);
+    const { container } = render(<ColorPicker open format='hsb' />);
     const hsbInputEls = container.querySelectorAll('.ant-color-picker-hsb-input input');
     fireEvent.change(hsbInputEls[0], {
       target: { value: 0 },
