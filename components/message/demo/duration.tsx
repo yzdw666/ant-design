@@ -7,8 +7,8 @@ const App: React.FC = () => {
   const success = () => {
     messageApi.open({
       type: 'success',
-      content: 'This is a prompt message for success, and it will disappear in 10 seconds',
-      duration: 10,
+      content: 'This is a prompt message for success, and it will disappear in 3 seconds',
+      duration: 3,
     });
   };
 
